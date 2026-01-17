@@ -117,10 +117,23 @@ function appInit(n) {
     getversion();
     // Fetch system info and storage/partition info for display
     getSysInfo();
-    // getStorageInfoForSysinfo();
+    getStorageInfoForSysinfo();
     // getCurrentMtdLayout();
     (n === "index" || n === "initramfs") && getmtdlayoutlist();
     n === "backup" && backupInit()
+}
+
+function updateGptNavVisibility() {
+    // Hide GPT update entry when no MMC is present (runtime detection).
+    // If backupinfo is unavailable, keep it visible (fallback behavior).
+    var el = document.querySelector("#sidebar [data-nav-id='gpt']");
+    if (!el) return;
+    var bi = APP_STATE.backupinfo;
+    if (bi && bi.mmc && bi.mmc.present === false) {
+        el.style.display = "none";
+    } else {
+        el.style.display = "";
+    }
 }
 
 function renderSysInfo() {
@@ -186,12 +199,17 @@ async function ensureSysInfoLoaded() {
 
 function getStorageInfoForSysinfo() {
     // Pull /backupinfo to render current partition table in the sysinfo box
+    if (APP_STATE.backupinfo) {
+        updateGptNavVisibility();
+        return;
+    }
     ajax({
         url: "/backupinfo",
         done: function (txt) {
             try {
                 APP_STATE.backupinfo = JSON.parse(txt);
             } catch (e) { return; }
+            updateGptNavVisibility();
             renderSysInfo();
         }
     });
@@ -515,7 +533,7 @@ var I18N = {
         "nav.initramfs": "Load initramfs",
         "nav.system": "System",
         "nav.backup": "Backup",
-        "nav.reboot": "Reboot device",
+        "nav.reboot": "Reboot",
         "control.language": "🌐Language",
         "control.theme": "🌓Theme",
         "theme.auto": "Auto",
@@ -623,14 +641,14 @@ var I18N = {
         "nav.basic": "基础功能",
         "nav.advanced": "高级功能",
         "nav.firmware": "固件升级",
-        "nav.uboot": "U-Boot 刷写",
-        "nav.bl2": "BL2 更新",
-        "nav.gpt": "GPT 分区表更新",
-        "nav.factory": "Factory 分区更新",
-        "nav.initramfs": "启动 Initramfs",
+        "nav.uboot": "更新 U-Boot",
+        "nav.bl2": "更新 BL2",
+        "nav.gpt": "更新 GPT",
+        "nav.factory": "更新 Factory",
+        "nav.initramfs": "加载 Initramfs",
         "nav.system": "系统",
         "nav.backup": "备份",
-        "nav.reboot": "重启设备",
+        "nav.reboot": "重启",
         "control.language": "🌐语言",
         "control.theme": "🌓主题",
         "theme.auto": "自动",

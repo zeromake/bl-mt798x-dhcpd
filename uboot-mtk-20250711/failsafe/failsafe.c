@@ -70,6 +70,19 @@ const char *get_mtd_layout_label(void);
 #define MTD_LAYOUTS_MAXLEN 128
 #endif
 
+#ifdef CONFIG_MTK_BOOTMENU_MMC
+static bool failsafe_mmc_present(void)
+{
+	struct mmc *mmc;
+	struct blk_desc *bd;
+
+	mmc = _mmc_get_dev(CONFIG_MTK_BOOTMENU_MMC_DEV_INDEX, 0, false);
+	bd = mmc ? mmc_get_blk_desc(mmc) : NULL;
+
+	return mmc && bd && bd->type != DEV_TYPE_UNKNOWN;
+}
+#endif
+
 static int output_plain_file(struct httpd_response *response, const char *path)
 {
 	const struct fs_desc *fd;
@@ -1283,7 +1296,8 @@ int start_web_failsafe(void)
 	httpd_register_uri_handler(inst, "/flashing.html", &html_handler, NULL);
 	httpd_register_uri_handler(inst, "/getmtdlayout", &mtd_layout_handler, NULL);
 #ifdef CONFIG_MTK_BOOTMENU_MMC
-	httpd_register_uri_handler(inst, "/gpt.html", &html_handler, NULL);
+	if (failsafe_mmc_present())
+		httpd_register_uri_handler(inst, "/gpt.html", &html_handler, NULL);
 #endif
 	httpd_register_uri_handler(inst, "/initramfs.html", &html_handler, NULL);
 	httpd_register_uri_handler(inst, "/main.js", &js_handler, NULL);

@@ -22,7 +22,7 @@ fi
 if [ -z "$SOC" ] || [ -z "$BOARD" ]; then
     echo "Usage: SOC=[mt7981|mt7986] BOARD=<board name> VERSION=[2022|2023|2024|2025] $0"
     echo "eg: SOC=mt7981 BOARD=360t7 VERSION=2025 $0"
-    echo "eg: SOC=mt7981 BOARD=wma301 VERSION=2025 $0"
+    echo "eg: SOC=mt7981 BOARD=tplink_wma301 VERSION=2025 $0"
     echo "eg: SOC=mt7981 BOARD=wr30u VERSION=2023 $0"
     echo "eg: SOC=mt7981 BOARD=cmcc_rax3000m-emmc VERSION=2024 $0"
     echo "eg: SOC=mt7981 BOARD=philips_hy3000 VERSION=2022 $0"

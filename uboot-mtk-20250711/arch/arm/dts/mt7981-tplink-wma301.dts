@@ -7,7 +7,7 @@
 / {
 	#address-cells = <1>;
 	#size-cells = <1>;
-	model = "mt7981-tplink_wma301";
+	model = "mt7981-tplink-wma301";
 	compatible = "mediatek,mt7981", "mediatek,mt7981-rfb";
 
 	chosen {
@@ -24,30 +24,30 @@
 	gpio-keys {
 		compatible = "gpio-keys";
 
-		button-reset {
+		reset-button {
 			label = "reset";
 			linux,code = <KEY_RESTART>;
-			gpios = <&gpio 1 GPIO_ACTIVE_LOW>;
+			gpios = <&pio 1 GPIO_ACTIVE_LOW>;
 		};
 
-		button-mesh {
+		mesh-button {
 			label = "mesh";
 			linux,code = <BTN_9>;
-			gpios = <&gpio 0 GPIO_ACTIVE_LOW>;
+			gpios = <&pio 0 GPIO_ACTIVE_LOW>;
 		};
 	};
 
 	leds {
 		compatible = "gpio-leds";
 
-		status_red_led: led-0 {
+		led-0 {
 			label = "red:status";
-			gpios = <&gpio 14 GPIO_ACTIVE_HIGH>;
+			gpios = <&pio 14 GPIO_ACTIVE_HIGH>;
 		};
 
-		status_green_led: led-1 {
+		led-1 {
 			label = "green:status";
-			gpios = <&gpio 15 GPIO_ACTIVE_HIGH>;
+			gpios = <&pio 15 GPIO_ACTIVE_HIGH>;
 		};
 	};
 
@@ -69,8 +69,8 @@
 	status = "okay";
 	mediatek,gmac-id = <0>;
 	phy-mode = "2500base-x";
-	mediatek,switch = "mt7531";
-	reset-gpios = <&gpio 39 GPIO_ACTIVE_HIGH>;
+	mediatek,switch = "auto";
+	reset-gpios = <&pio 39 GPIO_ACTIVE_HIGH>;
 
 	fixed-link {
 		speed = <2500>;

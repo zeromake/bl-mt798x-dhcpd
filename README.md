@@ -95,8 +95,7 @@ Create a directory named `mt798x_gpt_bin` in the respository root directory, and
 Then run:
 
 ```bash
-chmod +x show_gpt.sh
-./show_gpt.sh
+SHOW=1 ./generate_gpt.sh
 ```
 
 Then it will display the GPT partition info of all GPT bin files in `mt798x_gpt_bin` directory, and output the results to `gpt_info.txt` in the `output_gpt` directory.
